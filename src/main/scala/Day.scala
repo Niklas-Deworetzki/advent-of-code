@@ -2,8 +2,6 @@ package aoc
 
 import strategy.Strategy
 
-import aoc.Day.{dayRegistry, getInput}
-
 import java.io.File
 import java.net.URL
 import java.nio.file.{Files, Path}
@@ -12,19 +10,19 @@ import scala.collection.mutable
 import scala.io.Source
 import scala.util.{Try, Using}
 
-case class Day(year: Int, day: Int, strategy: Strategy) extends Runnable {
-  dayRegistry.add(this)
+abstract class Day(val day: Int) extends Runnable with Strategy {
+  var year: Int = 0
 
-  override def run(): Unit = {
+  def run(): Unit = {
     println(s"Solving $year/$day. Your solution can be submitted here: " + remoteURL)
-    strategy.run(getInput(this))
+    this.run(Day.getInput(this))
   }
 
-  private val localPath: Path =
-    Path.of(year.toString, day.toString)
+  private def localPath: Path =
+    Path.of(year.toString, day.toString + ".txt")
 
-  private val remoteURL: URL =
-    new URL(Main.remote.format(year, day))
+  private def remoteURL: String =
+    Main.remote.format(year, day)
 }
 
 object Day {
