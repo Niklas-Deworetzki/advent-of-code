@@ -1,7 +1,8 @@
 package aoc
 package strategy
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext, Future}
 
 trait Strategy {
   type Preprocessed
@@ -78,7 +79,7 @@ object Strategy {
       val preprocessed = preprocess(input)
       val solution2 = Future[Solution2](solve2(parse2(preprocessed)))
       println(solve1(parse1(preprocessed)))
-      solution2.onComplete(_.foreach(println))
+      println(Await.result(solution2, Duration.Inf))
     }
   }
 
@@ -89,7 +90,7 @@ object Strategy {
       val parsed = parse(preprocess(input))
       val solution2 = Future[Solution2](solve2(parsed))
       println(solve1(parsed))
-      solution2.onComplete(_.foreach(println))
+      println(Await.result(solution2, Duration.Inf))
     }
   }
 }
