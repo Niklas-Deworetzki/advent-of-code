@@ -35,8 +35,5 @@ object Day {
     Main.inputCache.resolve(day.localPath).toFile
 
   private def cachedInputForDay(day: Day): Try[String] =
-    Using(Source.fromFile(fileForDay(day)))(_.toString())
-
-  private def onlineInputForDay(day: Day): Try[String] =
-    Using(Source.fromURL(day.remoteURL))(_.toString())
+    Using(Source.fromFile(fileForDay(day)))(_.mkString)
 }
