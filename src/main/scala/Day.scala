@@ -28,27 +28,8 @@ case class Day(year: Int, day: Int, strategy: Strategy) extends Runnable {
 }
 
 object Day {
-
-  private val dayRegistry: mutable.Set[Day] = new mutable.HashSet[Day]()
-
-  def getDay(year: Int, day: Int): Option[Day] =
-    dayRegistry.find(d => d.day == day && d.year == year)
-
   def getInput(day: Day): String =
-    cachedInputForDay(day)
-      .orElse(downloadInputForDay(day))
-      .get
-
-  private def downloadInputForDay(day: Day): Try[String] = for {
-    input <- onlineInputForDay(day)
-    _ <- when(Main.doCacheInputs) {
-      Try(Files.writeString(day.localPath, input, CREATE_NEW))
-    }
-  } yield input
-
-  private def when(condition: Boolean)(action: => Try[Unit]): Try[Unit] =
-    if (condition) action
-    else Try(())
+    cachedInputForDay(day).get
 
   private def fileForDay(day: Day): File =
     Main.inputCache.resolve(day.localPath).toFile
