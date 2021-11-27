@@ -14,7 +14,7 @@ object Main {
   private val SingleDay = "([0-9]+)".r
 
   val years: List[Year] = List(
-    Year(2015, Day01, Day02, Day03, Day04, Day05),
+    Year(2015, Day01, Day02, Day03, Day04, Day05, Day06),
   )
 
   def main(args: Array[String]): Unit = args.foreach {
