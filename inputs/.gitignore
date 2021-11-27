@@ -1,0 +1,3 @@
+# Ignore input files for different days.
+*
+!.gitignore
