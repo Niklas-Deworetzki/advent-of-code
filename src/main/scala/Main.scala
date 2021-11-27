@@ -1,6 +1,6 @@
 package aoc
 
-import aoc.year2015.*
+import year2015.*
 
 import java.nio.file.{Path, Paths}
 

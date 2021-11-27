@@ -1,5 +1,5 @@
 package aoc
-package aoc.year2015
+package year2015
 
 import strategy.Strategy
 import strategy.Strategy.NoPreprocessing
