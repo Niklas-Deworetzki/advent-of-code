@@ -8,14 +8,17 @@ import java.nio.file.{Files, Path}
 import java.nio.file.StandardOpenOption.*
 import scala.collection.mutable
 import scala.io.Source
-import scala.util.{Try, Using}
+import scala.util.{Failure, Success, Try, Using}
 
 abstract class Day(val day: Int) extends Runnable with Strategy {
   var year: Int = 0
 
-  def run(): Unit = {
-    println(s"Solving $year/$day. Your solution can be submitted here: " + remoteURL)
-    this.run(Day.getInput(this))
+  def run(): Unit = Day.getInput(this) match {
+    case Success(input) =>
+      println(s"Solving $year/$day. Your solution can be submitted here: " + remoteURL)
+      this.run(input)
+    case _: Failure[_] =>
+      println(s"No input found for $year/$day. Download it here: " + remoteURL + "/input")
   }
 
   private def localPath: Path =
@@ -26,8 +29,8 @@ abstract class Day(val day: Int) extends Runnable with Strategy {
 }
 
 object Day {
-  def getInput(day: Day): String =
-    cachedInputForDay(day).get
+  def getInput(day: Day): Try[String] =
+    cachedInputForDay(day)
 
   private def fileForDay(day: Day): File =
     Main.inputCache.resolve(day.localPath).toFile
