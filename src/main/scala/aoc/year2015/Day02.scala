@@ -1,7 +1,7 @@
-package aoc
-package year2015
+package aoc.year2015
 
-import strategy.Strategy
+import aoc.Day
+import aoc.strategy.Strategy
 
 object Day02 extends Day(2) with Strategy.Shared {
   override type Preprocessed = Iterable[String]

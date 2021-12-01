@@ -1,9 +1,9 @@
-package aoc
-package year2015
+package aoc.year2015
 
-import strategy.Strategy
-
+import aoc.Day
+import aoc.strategy.Strategy
 import aoc.strategy.Strategy.NoPreprocessing
+
 import cats.kernel.Monoid
 
 object Day03 extends Day(3) with Strategy.Shared with NoPreprocessing {

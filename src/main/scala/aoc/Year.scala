@@ -1,7 +1,5 @@
 package aoc
 
-import java.util.Objects
-
 case class Year(year: Int, days: Day*) {
   days.foreach(_.year = year)
 

@@ -1,11 +1,11 @@
 package aoc
 
-import strategy.Strategy
+import aoc.strategy.Strategy
 
 import java.io.File
 import java.net.URL
-import java.nio.file.{Files, Path}
 import java.nio.file.StandardOpenOption.*
+import java.nio.file.{Files, Path}
 import scala.collection.mutable
 import scala.io.Source
 import scala.util.{Failure, Success, Try, Using}

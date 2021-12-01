@@ -1,7 +1,8 @@
-package aoc
-package year2015
+package aoc.year2015
 
-import strategy.Strategy
+import aoc.Day
+import aoc.strategy.Strategy
+import aoc.strategy.Strategy.NoPreprocessing
 
 import scala.reflect.ClassTag
 

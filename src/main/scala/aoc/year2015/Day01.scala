@@ -1,8 +1,8 @@
-package aoc
-package year2015
+package aoc.year2015
 
-import strategy.Strategy
-import strategy.Strategy.NoPreprocessing
+import aoc.Day
+import aoc.strategy.Strategy
+import aoc.strategy.Strategy.NoPreprocessing
 
 object Day01 extends Day(1) with Strategy.Shared with NoPreprocessing {
   override type Parsed = Iterable[Int]
