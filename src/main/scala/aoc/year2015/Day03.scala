@@ -5,15 +5,10 @@ import aoc.strategy.Strategy
 import aoc.strategy.Strategy.NoPreprocessing
 
 import cats.kernel.Monoid
+import aoc.utils.Pair.monoid
 
 object Day03 extends Day(3) with Strategy.Shared with NoPreprocessing {
   override type Parsed = Seq[(Int, Int)]
-
-  given monoid: Monoid[(Int, Int)] = new Monoid[(Int, Int)] {
-    override def empty: (Int, Int) = (0, 0)
-    def combine(l: (Int, Int), r: (Int, Int)): (Int, Int) =
-      (l._1 + r._1, l._2 + r._2)
-  }
 
   private val Directions: Map[Char, (Int, Int)] = Map(
     'v' -> (-1, 0),
