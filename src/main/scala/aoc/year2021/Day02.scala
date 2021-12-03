@@ -37,7 +37,7 @@ object Day02 extends Day(2) with Strategy.Shared {
     var depth = 0
     var x = 0
 
-    val resultPosition = input.foldLeft(0) {
+    input.foldLeft(0) {
       case (aim, (change, 0)) => aim + change
       case (aim, (0, units)) =>
         x += units
