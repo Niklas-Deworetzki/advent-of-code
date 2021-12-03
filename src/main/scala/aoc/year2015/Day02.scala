@@ -3,7 +3,7 @@ package aoc.year2015
 import aoc.Day
 import aoc.strategy.Strategy
 
-object Day02 extends Day(2) with Strategy.Shared {
+object Day02 extends Day with Strategy.Shared {
   override type Preprocessed = Iterable[String]
   override type Parsed = Iterable[(Int, Int, Int)]
 

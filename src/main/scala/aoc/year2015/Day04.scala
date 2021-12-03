@@ -7,7 +7,7 @@ import aoc.utils.Crypto
 
 import java.security.MessageDigest
 
-object Day04 extends Day(4) with Strategy.ParallelShared with NoPreprocessing {
+object Day04 extends Day with Strategy.ParallelShared with NoPreprocessing {
   type Challenge = (Int, String)
   override type Parsed = LazyList[Challenge]
 

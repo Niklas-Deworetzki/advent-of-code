@@ -4,7 +4,7 @@ import aoc.Day
 import aoc.strategy.Strategy
 import aoc.strategy.Strategy.NoPreprocessing
 
-object Day01 extends Day(1) with Strategy.Shared with NoPreprocessing {
+object Day01 extends Day with Strategy.Shared with NoPreprocessing {
   override type Parsed = Iterable[Int]
   override type Solution1 = Int
   override type Solution2 = Int

@@ -6,7 +6,7 @@ import aoc.strategy.Strategy.NoPreprocessing
 
 import scala.reflect.ClassTag
 
-object Day06 extends Day(6) with Strategy.ParallelShared {
+object Day06 extends Day with Strategy.ParallelShared {
   override type Preprocessed = Iterator[String]
   override def preprocess(input: String): Preprocessed = input.linesIterator
 

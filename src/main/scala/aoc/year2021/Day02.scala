@@ -6,7 +6,7 @@ import aoc.strategy.Strategy
 import cats.kernel.Monoid
 import aoc.utils.Pair.monoid
 
-object Day02 extends Day(2) with Strategy.Shared {
+object Day02 extends Day with Strategy.Shared {
   override type Preprocessed = List[String]
 
   override def preprocess(input: String): Preprocessed = input.linesIterator.toList

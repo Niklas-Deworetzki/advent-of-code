@@ -5,7 +5,7 @@ import aoc.strategy.Strategy
 
 import scala.annotation.tailrec
 
-object Day03 extends Day(3) with Strategy.Default {
+object Day03 extends Day with Strategy.Default {
   override type Preprocessed = IndexedSeq[IndexedSeq[Char]]
 
   override def preprocess(input: String): Preprocessed = input.linesIterator.map(_.toIndexedSeq).toIndexedSeq

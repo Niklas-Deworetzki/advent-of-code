@@ -4,7 +4,7 @@ import aoc.Day
 import aoc.strategy.Strategy
 
 
-object Day01 extends Day(1) with Strategy.Shared {
+object Day01 extends Day with Strategy.Shared {
   override type Preprocessed = Iterator[String]
   override type Parsed = List[Int]
 

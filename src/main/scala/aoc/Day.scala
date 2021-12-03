@@ -1,5 +1,6 @@
 package aoc
 
+import aoc.Day.{getInfo, register}
 import aoc.strategy.Strategy
 
 import java.io.File
@@ -10,8 +11,9 @@ import scala.collection.mutable
 import scala.io.Source
 import scala.util.{Failure, Success, Try, Using}
 
-abstract class Day(val day: Int) extends Runnable with Strategy {
-  var year: Int = 0
+abstract class Day extends Runnable with Strategy {
+  val (year, day) = getInfo(this)
+  register(this)
 
   def run(): Unit = Day.getInput(this) match {
     case Success(input) =>
@@ -26,9 +28,44 @@ abstract class Day(val day: Int) extends Runnable with Strategy {
 
   private def remoteURL: String =
     Main.remote.format(year, day)
+
+  def main(args: Array[String]): Unit = run()
 }
 
 object Day {
+  private val challengeRegistry: mutable.Map[Int, Array[Day]] = new mutable.HashMap()
+
+  private def register(day: Day): Unit = {
+    if (!challengeRegistry.contains(day.year)) {
+      challengeRegistry.put(day.year, new Array[Day](25))
+    }
+    challengeRegistry(day.year).update(day.day - 1, day)
+  }
+
+
+  private val ExtractInfo = """aoc.year(\d+).Day(\d+)\$""".r
+
+  private def getInfo(day: Day): (Int, Int) = day.getClass.getCanonicalName match {
+    case ExtractInfo(year, date) => (year.toInt, date.toInt)
+  }
+
+
+  private def loadDay(year: Int, day: Int): Try[Unit] = Try {
+    Class.forName(String.format("aoc.year%d.Day%02d$", year, day))
+  }
+
+  private def findDay(year: Int, day: Int): Try[Day] = Try {
+    val fetchDay = for {
+      daysInYear <- challengeRegistry.get(year)
+      dayInstance <- daysInYear.lift(day - 1)
+      if dayInstance != null
+    } yield dayInstance
+    fetchDay.getOrElse(throw new NoSuchElementException(s"Day $year/$day is not registered."))
+  }
+
+  def apply(year: Int, day: Int): Try[Day] =
+    loadDay(year, day).flatMap(_ => findDay(year, day))
+
   def getInput(day: Day): Try[String] =
     cachedInputForDay(day)
 

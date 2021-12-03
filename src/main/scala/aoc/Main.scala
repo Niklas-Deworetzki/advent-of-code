@@ -1,9 +1,7 @@
 package aoc
 
-import aoc.year2015.Year2015
-import aoc.year2021.Year2021
-
 import java.nio.file.{Path, Paths}
+import scala.util.{Failure, Success}
 
 object Main {
   val remote: String = "https://adventofcode.com/%d/day/%d"
@@ -14,10 +12,6 @@ object Main {
   private val QualifiedDay = "([0-9][0-9][0-9][0-9]).([0-9]+)".r
   private val SingleDay = "([0-9]+)".r
 
-  val years: List[Year] = List(
-    Year2015,
-    Year2021,
-  )
 
   def main(args: Array[String]): Unit = args.foreach {
     case QualifiedDay(year, day) =>
@@ -29,8 +23,8 @@ object Main {
   }
 
   private final def execute(year: Int, day: Int): Unit =
-    years.find(_.year == year).flatMap(_.getDay(day)) match {
-      case Some(solution) => solution.run()
-      case None => println(s"Year $year does not have a solution for day $day.")
+    Day(year, day) match {
+      case Success(solution) => solution.run()
+      case Failure(exception) => println(exception.getMessage)
     }
 }
