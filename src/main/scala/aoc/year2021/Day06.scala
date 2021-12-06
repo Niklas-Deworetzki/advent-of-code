@@ -4,22 +4,25 @@ import aoc.Day
 import aoc.strategy.Strategy
 
 object Day06 extends Day with Strategy.Shared {
-  override type Preprocessed = List[String]
-  override type Parsed = Array[Long]
+  override type Preprocessed = Array[Long]
+  override type Parsed = LazyList[Long]
 
-  override def preprocess(input: String): Preprocessed = input.split(',').toList
-  override def parse(input: Preprocessed): Parsed = {
-    val numbers: Parsed = Array.ofDim(10)
-    for (n <- input.map(_.toInt)) numbers(n) += 1
+  override def preprocess(input: String): Preprocessed = {
+    val numbers: Preprocessed = Array.ofDim(8 + 1)
+    for (n <- input.split(',').map(_.toInt))
+      numbers(n) += 1
     numbers
   }
+
+  override def parse(input: Preprocessed): Parsed =
+    LazyList.iterate(input)(iterate).map(_.sum)
 
   override type Solution1 = Long
   override type Solution2 = Long
 
-  private def iterate(numbers: Parsed): Parsed = {
+  private def iterate(numbers: Preprocessed): Preprocessed = {
     val reset = numbers(0)
-    for (index <- 0 until 9) {
+    for (index <- 0 until 8) {
       numbers(index) = numbers(index + 1)
     }
 
@@ -29,14 +32,9 @@ object Day06 extends Day with Strategy.Shared {
     numbers
   }
 
-  private def unfold(numbers: List[Int]): List[Int] = {
-    val m = numbers.map(_ - 1)
-    List(m.map(x => if (x == -1) 6 else x), List.fill(m.count(_ == -1))(8)).flatten
-  }
-
   override def solve1(input: Parsed): Solution1 =
-    LazyList.iterate(input.clone())(iterate)(80).sum
+    input(80)
 
   override def solve2(input: Parsed): Solution2 =
-    LazyList.iterate(input.clone())(iterate)(256).sum
+    input(256)
 }
