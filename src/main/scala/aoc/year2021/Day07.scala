@@ -21,9 +21,9 @@ object Day07 extends Day with Strategy.Shared {
 
   override def solve2(input: Parsed): Solution2 = {
     for (i <- input.min to input.max)
-      yield input.map(crabDifference(i)).map(Math.abs).sum
+      yield input.map(crabDifference(i)).sum
   }.min
 
   def crabDifference(target: Int)(origin: Int): Int =
-    (1 to (Math.abs(target - origin))).sum
+    (1 to Math.abs(target - origin)).sum
 }
