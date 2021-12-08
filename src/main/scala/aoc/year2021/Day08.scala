@@ -12,24 +12,24 @@ object Day08 extends Day with Strategy.Shared {
   override def parse(input: Preprocessed): Parsed = {
     for {
       line <- input
-      List(segments: String, switches: String) = line.split('|').toList
-    } yield (segments.trim.split(' '), switches.trim.split(' '))
+      List(signals: String, digits: String) = line.split('|').toList
+    } yield (signals.trim.split(' '), digits.trim.split(' '))
   }
 
   override type Solution1 = Long
   override type Solution2 = Long
 
+  private val filteredLengths = Set(2, 3, 4, 7)
+
   override def solve1(input: Parsed): Solution1 = {
-    for ((_, switches) <- input)
-      yield switches.count { switch =>
-        switch.length == 2 || switch.length == 3 || switch.length == 4 || switch.length == 7
-      }
+    for ((_, digits) <- input)
+      yield digits.map(_.length).count(filteredLengths.contains)
   }.sum
 
   private def key(string: String): Set[Int] =
     string.map(_ - 'a').toSet
 
-  val digits: Map[Set[Int], Int] = Map(
+  val digitSignals: Map[Set[Int], Int] = Map(
     key("abcefg") -> 0,
     key("cf") -> 1,
     key("acdeg") -> 2,
@@ -42,21 +42,21 @@ object Day08 extends Day with Strategy.Shared {
     key("abcdfg") -> 9,
   )
 
-  private def findSignalConfiguration(signals: Array[String]): Map[Char, Int] = {
+  private def findSignalConfiguration(signals: Iterable[String]): Map[Char, Int] = {
     for {
       keys <- ("abcdefg".permutations)
       config = (keys.zipWithIndex).toMap
-      if signals.forall(signal => digits.contains(signal.map(config).toSet))
+      if signals.forall(signal => digitSignals.contains(signal.map(config).toSet))
     } yield config
   }.next()
 
 
   override def solve2(input: Parsed): Solution2 = {
     for {
-      (signal, switches) <- input
+      (signal, digits) <- input
       config = findSignalConfiguration(signal)
-    } yield
-      switches.map(digit => digits(digit.map(config).toSet)).mkString("").toInt
-
+    } yield digits.map(digit => digitSignals(digit.map(config).toSet)).foldLeft(0) { (current, digit) =>
+      current * 10 + digit
+    }
   }.sum
 }
