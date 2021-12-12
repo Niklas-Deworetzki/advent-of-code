@@ -25,28 +25,27 @@ object Day12 extends Day with Strategy.Shared {
     nodeId.head.isLower
 
   override type Solution1 = Int
-  override type Solution2 = Long
+  override type Solution2 = Int
 
-  def findPaths(graph: Parsed, currentPath: List[String], currentNode: String, allowDuplicate: Boolean): Iterable[List[String]] = {
+  def countPaths(graph: Parsed, currentPath: List[String], currentNode: String, allowDuplicate: Boolean): Iterable[List[String]] = {
     if (currentNode == "end") Some(currentNode :: currentPath)
     else if (isTraversableOnce(currentNode) && currentPath.contains(currentNode)) {
       if (currentNode == "start" || !allowDuplicate) Nil
       else {
         val nextPath = currentNode :: currentPath
-        graph(currentNode).map(findPaths(graph, nextPath, _, false)).flatten
+        graph(currentNode).map(countPaths(graph, nextPath, _, false)).flatten
       }
-    }
-    else {
+    } else {
       val nextPath = currentNode :: currentPath
-      graph(currentNode).map(findPaths(graph, nextPath, _, allowDuplicate)).flatten
+      graph(currentNode).map(countPaths(graph, nextPath, _, allowDuplicate)).flatten
     }
   }
 
   override def solve1(input: Parsed): Solution1 =
-    findPaths(input, Nil, "start", false).size
+    countPaths(input, Nil, "start", false).size
 
   override def solve2(input: Parsed): Solution2 =
-    findPaths(input, Nil, "start", true).size
+    countPaths(input, Nil, "start", true).size
 
   class Graph {
     private val edges: mutable.Map[String, mutable.Set[String]] = new mutable.HashMap()
