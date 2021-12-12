@@ -3,7 +3,7 @@ package aoc.year2021
 import aoc.Day
 import aoc.strategy.Strategy
 
-object Day08 extends Day with Strategy.Shared {
+object Day08 extends Day with Strategy.ParallelShared {
   override type Preprocessed = List[String]
   override type Parsed = List[(Array[String], Array[String])]
 
