@@ -25,14 +25,14 @@ object Day13 extends Day with Strategy.Shared {
     FoldingInstructions(points.toSet, folds)
   }
 
-  case class FoldingInstructions(dots: Set[(Int, Int)], folds: List[FoldingCut])
+  case class FoldingInstructions(paper: Set[(Int, Int)], folds: List[FoldingCut])
   case class FoldingCut(coordinate: Int, horizontal: Boolean) {
     def asPoint: (Int, Int) =
       if (horizontal) (coordinate, Int.MaxValue)
       else (Int.MaxValue, coordinate)
   }
 
-  override type Solution1 = Long
+  override type Solution1 = Int
   override type Solution2 = String
 
   private def foldCoordinate(coordinate: Int, cut: Int): Int =
@@ -49,10 +49,10 @@ object Day13 extends Day with Strategy.Shared {
 
 
   override def solve1(input: Parsed): Solution1 =
-    foldPoints(input.dots, input.folds.head).size
+    foldPoints(input.paper, input.folds.head).size
 
   override def solve2(input: Parsed): Solution2 =
-    paper(input.folds.foldLeft(input.dots)(foldPoints))
+    paper(input.folds.foldLeft(input.paper)(foldPoints))
 
 
   private def paper(points: Set[(Int, Int)]): String = {
