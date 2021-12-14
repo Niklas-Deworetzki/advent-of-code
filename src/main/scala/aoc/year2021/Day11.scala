@@ -58,5 +58,6 @@ object Day11 extends Day with Strategy.Shared {
 
 
   override def solve2(input: Parsed): Solution2 =
-    input.takeWhile(_ != sideLength * sideLength).size + 1
+    input.indexWhere(_ == sideLength * sideLength) + 1
+
 }
