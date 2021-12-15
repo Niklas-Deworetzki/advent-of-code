@@ -36,34 +36,35 @@ object Day15 extends Day with Strategy.Shared {
   type Paths = Array[Array[Int]]
 
   private def shortestPath(graph: Parsed, start: (Int, Int)): Paths = {
+    given priorityOrder: Ordering[(Int, (Int, Int))] = Ordering.by[(Int, (Int, Int)), Int](_._1).reverse
+
     val distances: Paths = Array.fill(graph.size, graph(0).size)(Int.MaxValue)
     val visited: Array[Array[Boolean]] = Array.ofDim(graph.size, graph(0).size)
-    val toVisit: mutable.Queue[(Int, Int)] = new mutable.Queue()
+    val toVisit: mutable.PriorityQueue[(Int, (Int, Int))] = new mutable.PriorityQueue()
 
     distances(start._2)(start._1) = 0
-    toVisit.addOne(start)
+    toVisit.addOne((0, start))
     while (toVisit.nonEmpty) {
-      val (x, y) = toVisit.dequeue()
+      val (_, (x, y)) = toVisit.dequeue()
       visited(y)(x) = true
 
-      for ((nx, ny) <- neighbours((x, y)).sortBy(valueOf(graph)); if isDefined(graph)(nx, ny) /* && !visited(ny)(nx) */) {
+      for ((nx, ny) <- neighbours((x, y)).sortBy(valueOf(graph)); if isDefined(graph)(nx, ny) && !visited(ny)(nx)) {
         val previousDistance = distances(ny)(nx)
         val currentDistance = distances(y)(x) + graph(ny)(nx)
 
         if (currentDistance < previousDistance) {
           distances(ny)(nx) = currentDistance
-          toVisit.enqueue((nx, ny))
+          toVisit.enqueue((currentDistance, (nx, ny)))
         }
       }
-
     }
 
     distances
   }
 
-  override def solve1(input: Parsed): Solution1 =
+  override def solve1(input: Parsed): Solution1 = time("Solution 1") {
     shortestPath(input, (0, 0))(input.size - 1)(input.last.size - 1)
-
+  }
 
   private def expandMap(original: Parsed): Parsed = {
     val buffer: Array[Array[Int]] = Array.ofDim(original.size * 5, original(0).size * 5)
@@ -88,7 +89,7 @@ object Day15 extends Day with Strategy.Shared {
     buffer.map(_.toIndexedSeq).toIndexedSeq
   }
 
-  override def solve2(input: Parsed): Solution2 = {
+  override def solve2(input: Parsed): Solution2 = time("Solution 2") {
     val expanedMap = expandMap(input)
     shortestPath(expanedMap, (0, 0))(expanedMap.size - 1)(expanedMap.last.size - 1)
   }
