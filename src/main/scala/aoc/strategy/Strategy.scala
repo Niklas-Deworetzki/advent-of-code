@@ -11,12 +11,14 @@ trait Strategy {
   type Solution1
   type Solution2
 
-  def time[A](tag: String)(action: => A): A = {
+  val enableTimingOutput: Boolean = false
+
+  def time[A](tag: String)(action: => A): A = if (enableTimingOutput) {
     val startTime: Long = System.currentTimeMillis()
     val result = action
     println(s"$tag: ${System.currentTimeMillis() - startTime}ms")
     result
-  }
+  } else action
 
   def run(input: String): Unit
 
@@ -39,10 +41,10 @@ object Strategy {
     def parse2(input: Preprocessed): Parsed2
     def solve2(input: Parsed2): Solution2
 
-    override def run(input: String): Unit = {
+    override def run(input: String): Unit = time("Total") {
       val preprocessed = preprocess(input)
-      println(solve1(parse1(preprocessed)))
-      println(solve2(parse2(preprocessed)))
+      println(time("Solution 1")(solve1(parse1(preprocessed))))
+      println(time("Solution 2")(solve2(parse2(preprocessed))))
     }
   }
 
@@ -56,10 +58,10 @@ object Strategy {
     def solve1(input: Parsed): Solution1
     def solve2(input: Parsed): Solution2
 
-    override def run(input: String): Unit = {
+    override def run(input: String): Unit = time("Total") {
       val parsed = parse(preprocess(input))
-      println(solve1(parsed))
-      println(solve2(parsed))
+      println(time("Solution 1")(solve1(parsed)))
+      println(time("Solution 2")(solve2(parsed)))
     }
   }
 
@@ -70,11 +72,11 @@ object Strategy {
     def solve1(input: Parsed1): Solution1
     def solve2(solution1: Solution1): Solution2
 
-    override def run(input: String): Unit = {
+    override def run(input: String): Unit = time("Total") {
       val preprocessed = preprocess(input)
-      val solution1 = solve1(parse1(preprocessed))
+      val solution1 = time("Solution 1")(solve1(parse1(preprocessed)))
       println(solution1)
-      val solution2 = solve2(solution1)
+      val solution2 = time("Solution 1")(solve2(solution1))
       println(solution2)
     }
   }
@@ -82,10 +84,10 @@ object Strategy {
   trait Parallel extends Default {
     implicit private val executionContext: ExecutionContext = ExecutionContext.global
 
-    override def run(input: String): Unit = {
+    override def run(input: String): Unit = time("Total") {
       val preprocessed = preprocess(input)
-      val solution2 = Future[Solution2](solve2(parse2(preprocessed)))
-      println(solve1(parse1(preprocessed)))
+      val solution2 = Future[Solution2](time("Solution 2")(solve2(parse2(preprocessed))))
+      println(time("Solution 1")(solve1(parse1(preprocessed))))
       println(Await.result(solution2, Duration.Inf))
     }
   }
@@ -93,10 +95,10 @@ object Strategy {
   trait ParallelShared extends Shared {
     implicit private val executionContext: ExecutionContext = ExecutionContext.global
 
-    override def run(input: String): Unit = {
+    override def run(input: String): Unit = time("Total") {
       val parsed = parse(preprocess(input))
-      val solution2 = Future[Solution2](solve2(parsed))
-      println(solve1(parsed))
+      val solution2 = Future[Solution2](time("Solution 2")(solve2(parsed)))
+      println(time("Solution 1")(solve1(parsed)))
       println(Await.result(solution2, Duration.Inf))
     }
   }

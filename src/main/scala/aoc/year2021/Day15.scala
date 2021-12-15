@@ -62,9 +62,8 @@ object Day15 extends Day with Strategy.Shared {
     distances.last.last
   }
 
-  override def solve1(input: Parsed): Solution1 = time("Solution 1") {
+  override def solve1(input: Parsed): Solution1 =
     shortestPath(input)
-  }
 
   private def expandMap(original: Parsed): Parsed = {
     val buffer: Array[Array[Int]] = Array.ofDim(original.size * 5, original(0).size * 5)
@@ -89,7 +88,7 @@ object Day15 extends Day with Strategy.Shared {
     buffer.map(_.toIndexedSeq).toIndexedSeq
   }
 
-  override def solve2(input: Parsed): Solution2 = time("Solution 2") {
+  override def solve2(input: Parsed): Solution2 =
     shortestPath(expandMap(input))
-  }
+
 }
