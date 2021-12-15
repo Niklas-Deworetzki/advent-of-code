@@ -43,13 +43,6 @@ object Day09 extends Day with Strategy.Shared {
 
     val allBasins = basins.flatMap(identity)
 
-    for (y <- input.indices) {
-      for (x <- input(y).indices) {
-        printf("%2d ", allBasins(y * input(0).length + x))
-      }
-      println()
-    }
-
     {
       for (y <- basins.indices; x <- basins(y).indices)
         yield allBasins.count(_ == y * basins(y).length + x)
