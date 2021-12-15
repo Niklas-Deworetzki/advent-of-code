@@ -35,15 +35,15 @@ object Day15 extends Day with Strategy.Shared {
 
   type Paths = Array[Array[Int]]
 
-  private def shortestPath(graph: Parsed, start: (Int, Int)): Paths = {
+  private def shortestPath(graph: Parsed): Int = {
     given priorityOrder: Ordering[(Int, (Int, Int))] = Ordering.by[(Int, (Int, Int)), Int](_._1).reverse
 
     val distances: Paths = Array.fill(graph.size, graph(0).size)(Int.MaxValue)
     val visited: Array[Array[Boolean]] = Array.ofDim(graph.size, graph(0).size)
     val toVisit: mutable.PriorityQueue[(Int, (Int, Int))] = new mutable.PriorityQueue()
 
-    distances(start._2)(start._1) = 0
-    toVisit.addOne((0, start))
+    distances(0)(0) = 0
+    toVisit.addOne((0, (0, 0)))
     while (toVisit.nonEmpty) {
       val (_, (x, y)) = toVisit.dequeue()
       visited(y)(x) = true
@@ -59,11 +59,11 @@ object Day15 extends Day with Strategy.Shared {
       }
     }
 
-    distances
+    distances.last.last
   }
 
   override def solve1(input: Parsed): Solution1 = time("Solution 1") {
-    shortestPath(input, (0, 0))(input.size - 1)(input.last.size - 1)
+    shortestPath(input)
   }
 
   private def expandMap(original: Parsed): Parsed = {
@@ -90,7 +90,6 @@ object Day15 extends Day with Strategy.Shared {
   }
 
   override def solve2(input: Parsed): Solution2 = time("Solution 2") {
-    val expanedMap = expandMap(input)
-    shortestPath(expanedMap, (0, 0))(expanedMap.size - 1)(expanedMap.last.size - 1)
+    shortestPath(expandMap(input))
   }
 }
