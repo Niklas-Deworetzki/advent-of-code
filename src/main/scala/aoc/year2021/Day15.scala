@@ -48,7 +48,7 @@ object Day15 extends Day with Strategy.Shared {
       val (_, (x, y)) = toVisit.dequeue()
       visited(y)(x) = true
 
-      for ((nx, ny) <- neighbours((x, y)).sortBy(valueOf(graph)); if isDefined(graph)(nx, ny) && !visited(ny)(nx)) {
+      for ((nx, ny) <- neighbours((x, y)); if isDefined(graph)(nx, ny) && !visited(ny)(nx)) {
         val previousDistance = distances(ny)(nx)
         val currentDistance = distances(y)(x) + graph(ny)(nx)
 
