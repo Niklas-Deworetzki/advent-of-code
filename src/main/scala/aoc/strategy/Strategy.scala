@@ -1,6 +1,8 @@
 package aoc
 package strategy
 
+import aoc.strategy.Strategy.doTime
+
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}
 
@@ -13,12 +15,7 @@ trait Strategy {
 
   val enableTimingOutput: Boolean = false
 
-  def time[A](tag: String)(action: => A): A = if (enableTimingOutput) {
-    val startTime: Long = System.currentTimeMillis()
-    val result = action
-    println(s"$tag: ${System.currentTimeMillis() - startTime}ms")
-    result
-  } else action
+  def time[A](tag: String)(action: => A): A = if (enableTimingOutput) doTime(tag)(action) else action
 
   def run(input: String): Unit
 
@@ -27,6 +24,13 @@ trait Strategy {
 }
 
 object Strategy {
+
+  def doTime[A](tag: String)(action: => A): A = {
+    val startTime: Long = System.currentTimeMillis()
+    val result = action
+    println(s"$tag: ${System.currentTimeMillis() - startTime}ms")
+    result
+  }
 
   trait NoPreprocessing extends Strategy {
     override type Preprocessed = String
