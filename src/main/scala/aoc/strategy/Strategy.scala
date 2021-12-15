@@ -11,6 +11,13 @@ trait Strategy {
   type Solution1
   type Solution2
 
+  def time[A](tag: String)(action: => A): A = {
+    val startTime: Long = System.currentTimeMillis()
+    val result = action
+    println(s"$tag: ${System.currentTimeMillis() - startTime}ms")
+    result
+  }
+
   def run(input: String): Unit
 
   def preprocess(input: String): Preprocessed
