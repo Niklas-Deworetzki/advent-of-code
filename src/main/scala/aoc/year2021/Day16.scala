@@ -12,7 +12,7 @@ object Day16 extends Day with Strategy.Shared {
     ("0" * (4 - binary.length)) + binary
   }
 
-  override def preprocess(input: String): Preprocessed = input.flatMap(hexToBinary)
+  override def preprocess(input: String): Preprocessed = input.flatMap(hexToBinary).toList
 
   private def seqToNumber(seq: Iterable[Char]): Long =
     seq.foldLeft(0) { (number, digit) =>
@@ -85,6 +85,7 @@ object Day16 extends Day with Strategy.Shared {
     case Operator(_, 6, List(lhs, rhs)) => if (eval(lhs) < eval(rhs)) 1 else 0
     case Operator(_, 7, List(lhs, rhs)) => if (eval(lhs) == eval(rhs)) 1 else 0
   }
+
 
   override def solve1(input: Parsed): Solution1 =
     sumVersionNumbers(input.head)
