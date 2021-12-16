@@ -33,12 +33,10 @@ object Day15 extends Day with Strategy.Shared {
       yield (x + xd, y + yd)
   }
 
-  type Paths = Array[Array[Int]]
-
   private def shortestPath(graph: Parsed): Int = {
     given priorityOrder: Ordering[(Int, (Int, Int))] = Ordering.by[(Int, (Int, Int)), Int](_._1).reverse
 
-    val distances: Paths = Array.fill(graph.size, graph(0).size)(Int.MaxValue)
+    val distances: Array[Array[Int]] = Array.fill(graph.size, graph(0).size)(Int.MaxValue)
     val visited: Array[Array[Boolean]] = Array.ofDim(graph.size, graph(0).size)
     val toVisit: mutable.PriorityQueue[(Int, (Int, Int))] = new mutable.PriorityQueue()
 
