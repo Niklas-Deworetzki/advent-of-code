@@ -6,7 +6,7 @@ import aoc.strategy.Strategy
 import scala.annotation.tailrec
 import scala.util.parsing.combinator.{ImplicitConversions, Parsers, RegexParsers}
 
-object Day18 extends Day with Strategy.Shared with Parsers with RegexParsers with ImplicitConversions {
+object Day18 extends Day with Strategy.Default with Parsers with RegexParsers with ImplicitConversions {
   override type Preprocessed = Iterator[String]
   override type Parsed = IndexedSeq[Number]
 

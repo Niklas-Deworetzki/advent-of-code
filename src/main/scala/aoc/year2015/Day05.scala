@@ -5,7 +5,7 @@ import aoc.strategy.Strategy
 import aoc.strategy.Strategy.NoPreprocessing
 
 
-object Day05 extends Day with Strategy.Shared with NoPreprocessing {
+object Day05 extends Day with Strategy.Default with NoPreprocessing {
   override type Parsed = Iterable[String]
 
   override def parse(input: String): Parsed =

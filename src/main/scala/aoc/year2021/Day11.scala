@@ -5,7 +5,7 @@ import aoc.strategy.Strategy
 
 import scala.collection.mutable
 
-object Day11 extends Day with Strategy.Shared {
+object Day11 extends Day with Strategy.Default {
   override type Preprocessed = Array[Array[Int]]
   override type Parsed = LazyList[Long]
 

@@ -6,7 +6,7 @@ import aoc.strategy.Strategy
 import java.util.concurrent.atomic.AtomicLong
 import scala.collection.mutable
 
-object Day15 extends Day with Strategy.Shared {
+object Day15 extends Day with Strategy.Default {
   override type Preprocessed = Iterator[String]
   override type Parsed = IndexedSeq[IndexedSeq[Int]]
 

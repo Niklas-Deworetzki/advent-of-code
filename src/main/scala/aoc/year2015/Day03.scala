@@ -7,7 +7,7 @@ import aoc.strategy.Strategy.NoPreprocessing
 import cats.kernel.Monoid
 import aoc.utils.Pair.monoid
 
-object Day03 extends Day with Strategy.Shared with NoPreprocessing {
+object Day03 extends Day with Strategy.Default with NoPreprocessing {
   override type Parsed = Seq[(Int, Int)]
 
   private val Directions: Map[Char, (Int, Int)] = Map(

@@ -3,7 +3,7 @@ package aoc.year2021
 import aoc.Day
 import aoc.strategy.Strategy
 
-object Day17 extends Day with Strategy.Shared with Strategy.NoPreprocessing {
+object Day17 extends Day with Strategy.Default with Strategy.NoPreprocessing {
   override type Parsed = (Range, Range)
 
   private val ExtractInfo = """target area: x=(-?\d+)..(-?\d+), y=(-?\d+)..(-?\d+)""".r

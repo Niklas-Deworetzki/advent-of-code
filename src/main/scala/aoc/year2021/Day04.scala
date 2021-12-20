@@ -3,7 +3,7 @@ package aoc.year2021
 import aoc.Day
 import aoc.strategy.Strategy
 
-object Day04 extends Day with Strategy.Shared {
+object Day04 extends Day with Strategy.Default {
   class Bingo(numbers: Iterable[Int]) {
     val selected: Array[Boolean] = Array.fill(25)(false)
     val indices: Map[Int, Int] = numbers.zipWithIndex.toMap
