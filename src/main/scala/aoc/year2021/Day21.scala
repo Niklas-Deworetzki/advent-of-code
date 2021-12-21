@@ -102,7 +102,6 @@ object Day21 extends Day with Strategy.Default with Strategy.NoPreprocessing {
     }
 
 
-  override val enableTimingOutput: Boolean = true
   override def solve2(input: Parsed): Solution2 = {
     val (p1Wins, p2Wins) = winnersFor(new Gamestate(input._1, input._2))
     Math.max(p1Wins, p2Wins)
