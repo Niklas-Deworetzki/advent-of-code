@@ -31,7 +31,7 @@ object Strategy {
   }
 
   trait NoPreprocessing extends Strategy {
-    override type Preprocessed = String
+    final override type Preprocessed = String
 
     def preprocess(input: String): String = input
   }
