@@ -4,7 +4,6 @@ import aoc.Day
 import aoc.strategy.Strategy
 
 import cats.kernel.Monoid
-import aoc.utils.Pair.monoid
 
 object Day02 extends Day with Strategy.Default {
   override type Preprocessed = List[String]
@@ -28,12 +27,12 @@ object Day02 extends Day with Strategy.Default {
   override type Solution1 = Int
   override type Solution2 = Int
 
-  override def solve1(input: Parsed1): Solution1 = {
+  override def solve1(input: Parsed): Solution1 = {
     val resultPosition = Monoid.combineAll(input)
     (resultPosition._1 * resultPosition._2)
   }
 
-  override def solve2(input: Parsed2): Solution2 = {
+  override def solve2(input: Parsed): Solution2 = {
     var depth = 0
     var x = 0
 

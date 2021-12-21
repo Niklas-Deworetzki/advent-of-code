@@ -5,7 +5,6 @@ import aoc.strategy.Strategy
 import aoc.strategy.Strategy.NoPreprocessing
 
 import cats.kernel.Monoid
-import aoc.utils.Pair.monoid
 
 object Day03 extends Day with Strategy.Default with NoPreprocessing {
   override type Parsed = Seq[(Int, Int)]
@@ -21,6 +20,8 @@ object Day03 extends Day with Strategy.Default with NoPreprocessing {
 
   override type Solution1 = Int
   override type Solution2 = Int
+
+  val monoid: Monoid[(Int, Int)] = implicitly[Monoid[(Int, Int)]]
 
   override def solve1(input: Parsed): Solution1 =
     input.scanLeft(monoid.empty)(monoid.combine).toSet.size
