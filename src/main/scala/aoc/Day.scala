@@ -43,10 +43,11 @@ object Day {
   }
 
 
-  private val ExtractInfo = """aoc.year(\d+).Day(\d+)\$""".r
+  private val ExtractInfo = """aoc.year(\d+).Day(\d+).*\$""".r
 
   private def getInfo(day: Day): (Int, Int) = day.getClass.getCanonicalName match {
     case ExtractInfo(year, date) => (year.toInt, date.toInt)
+    case _ => (0, 0)
   }
 
 
