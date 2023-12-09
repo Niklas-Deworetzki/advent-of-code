@@ -17,10 +17,10 @@ abstract class Day extends Runnable with Strategy {
 
   def run(): Unit = Day.getInput(this) match {
     case Success(input) =>
-      println(s"Solving $year/$day. Your solution can be submitted here: " + remoteURL)
+      println(s"Solving $year/$day. Your solution can be submitted here: $remoteURL")
       this.run(input)
     case _: Failure[_] =>
-      println(s"No input found for $year/$day. Download it here: " + remoteURL + "/input")
+      println(s"No input found at $localPath. Download it here: $remoteURL/input")
   }
 
   private def localPath: Path =
