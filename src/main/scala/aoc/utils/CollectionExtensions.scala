@@ -27,5 +27,27 @@ object CollectionExtensions {
     def findKeyWhereValue(predicate: V => Boolean): Option[K] =
       map.find(entry => predicate(entry._2)).map(_._1)
 
+  extension [A](elements: IndexedSeq[A]) {
+    inline def pairwise(action: (A, A) => Unit): Unit = {
+      for (x <- elements.indices) {
+        for (y <- elements.indices.drop(x + 1)) {
+          action(elements(x), elements(y))
+        }
+      }
+    }
 
+    inline def foldPairs[B](zero: B)(combinator: (B, A, A) => B): B = {
+      var acc: B = zero
+      pairwise { (x, y) =>
+        acc = combinator(acc, x, y)
+      }
+      acc
+    }
+
+    inline def countPairsMatching(predicate: (A, A) => Boolean): Int =
+      foldPairs(0) { (count, x, y) =>
+        if (predicate(x, y)) count + 1
+        else count
+      }
+  }
 }

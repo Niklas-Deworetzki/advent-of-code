@@ -2,6 +2,7 @@ package aoc.year2023
 
 import aoc.Day
 import aoc.strategy.Strategy
+import aoc.utils.CollectionExtensions.foldPairs
 
 object Day11 extends Day with Strategy.Default {
   override type Preprocessed = Iterator[String]
@@ -28,15 +29,10 @@ object Day11 extends Day with Strategy.Default {
   override def solve2(input: Parsed): Solution2 =
     computeDistances(input, 1000000)
 
-  private def computeDistances(galaxies: IndexedSeq[Galaxy], expansion: Int): Long = {
-    var sum = 0L
-    for (i1 <- galaxies.indices) {
-      for (i2 <- galaxies.indices.drop(i1 + 1)) {
-        sum += distance(galaxies(i1), galaxies(i2), expansion)
-      }
+  private def computeDistances(galaxies: IndexedSeq[Galaxy], expansion: Int): Long =
+    galaxies.foldPairs(0L) { (dist, g1, g2) =>
+      dist + distance(g1, g2, expansion)
     }
-    sum
-  }
 
   private def computeExpansion(
     galaxies: Iterable[Galaxy],
